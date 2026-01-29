@@ -11,32 +11,29 @@ Dependencies:
 * pip install numpy pandas torch pytorch-lightning neuralforecast \
             onnx onnxruntime matplotlib termcolor tensorflow
 
-
-
 Repository structure
 Verify_nn_prod_plan/
-└── models_20260123/
-    ├── domain_coverage_analysis.py
-    ├── empirical_manygraphs_aggregated_families.py
-    ├── lipschitz_empirical.py
-    ├── time_series_sensitivity.py
-    │
-    ├── nhits_20260123/
-    │   ├── data/               # Preprocessed UCI demand data
-    │   ├── lightning_logs/     # Forecast model training logs
-    │   ├── models/             # Trained forecasters and policies
-    │   │   ├── policy_baseline/
-    │   │   └── policy_robust/
-    │   ├── scripts/            # Training scripts
-    │   ├── src/                # Forecasting + verification code
-    │
-    └── nbeats_20260123/
-        ├── data/
-        ├── lightning_logs/
-        ├── models/
-        ├── scripts/
-        ├── src/
+            models_20260123/
+                        domain_coverage_analysis.py 
+                        empirical_manygraphs_aggregated_families.py 
+                        lipschitz_empirical.py 
+                        time_series_sensitivity.py
 
+                        nhits_20260123/
+                                    data/               # Preprocessed UCI demand data
+                                    lightning_logs/     # Forecast model training logs
+                                    models/             # Trained forecasters and policies
+                                                policy_baseline/
+                                                policy_robust/
+                        
+                                    scripts/            # Training scripts
+                                    src/                # Forecasting + verification code                        
+                        nbeats_20260123/
+                                    data/
+                                    lightning_logs/
+                                    models/
+                                    scripts/
+                                    src/
 
 
 Commands (end-to-end pipeline):
