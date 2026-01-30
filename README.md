@@ -37,11 +37,10 @@ Verify_nn_prod_plan/
 
 
 # Commands (end-to-end pipeline):
-
+```bash
 1) Train Models
 
 NHITS
-```bash
 cd models_20260123/nhits_20260123/
 python3 -m src.forecast_model --kind nhits --workspace models/nhits \
   | tee "output_forecastmodel_nhits_$(date +%Y%m%d_%H%M%S).txt"
