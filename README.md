@@ -38,35 +38,35 @@ Verify_nn_prod_plan/
 
 # Commands (end-to-end pipeline):
 
-## 1) Train Models
+1) Train Models
 
-### NHITS
+NHITS
 ```bash
 cd models_20260123/nhits_20260123/
 python3 -m src.forecast_model --kind nhits --workspace models/nhits \
   | tee "output_forecastmodel_nhits_$(date +%Y%m%d_%H%M%S).txt"
 
-### NBEATS Similarly:
+NBEATS Similarly:
 cd models_20260123/nbeats_20260123/
 python3 -m src.forecast_model --kind nbeats --workspace models/nbeats | tee "output_forecastmodel_nbeats_$(date +%Y%m%d_%H%M%S).txt"
 
 
 2) Train both baseline+robust policies (writes models/scaling.json)
-$cd models_20260123/nhits_20260123/
-$python3 scripts/train_policy_two_onnx_both.py --forecast nhits --k 7 --pert-radius 1.0 --eps-q 0.1 | tee "output_trainpolicy_nhits_$(date +%Y%m%d_%H%M%S).txt"
+cd models_20260123/nhits_20260123/
+python3 scripts/train_policy_two_onnx_both.py --forecast nhits --k 7 --pert-radius 1.0 --eps-q 0.1 | tee "output_trainpolicy_nhits_$(date +%Y%m%d_%H%M%S).txt"
 
-$cd models_20260123/nbeats_20260123/
-$python3 scripts/train_policy_two_onnx_both.py --forecast nbeats --k 7 --pert-radius 1.0 --eps-q 0.1 | tee "output_trainpolicy_nbeats_$(date +%Y%m%d_%H%M%S).txt"
+cd models_20260123/nbeats_20260123/
+python3 scripts/train_policy_two_onnx_both.py --forecast nbeats --k 7 --pert-radius 1.0 --eps-q 0.1 | tee "output_trainpolicy_nbeats_$(date +%Y%m%d_%H%M%S).txt"
 
 
 3) Quick sanity checks in each controller directory :
 
 3)1)
-$cd models_20260123/nhits_20260123/
-$cat models/scaling.json
+cd models_20260123/nhits_20260123/
+cat models/scaling.json
 
-$cd models_20260123/nbeats_20260123/
-$cat models/scaling.json
+cd models_20260123/nbeats_20260123/
+cat models/scaling.json
 
 You should see models/scaling.json containing:
 
@@ -76,11 +76,11 @@ last_forecast_raw_clipped_nonneg (length k)
  forecast_kind, seed, k
 
 3)2)
-$cd models_20260123/nhits_20260123/
-$ls -la models/policy_baseline models/policy_robust
+cd models_20260123/nhits_20260123/
+ls -la models/policy_baseline models/policy_robust
 
-$cd models_20260123/nbeats_20260123/
-$ls -la models/policy_baseline models/policy_robust
+cd models_20260123/nbeats_20260123/
+ls -la models/policy_baseline models/policy_robust
 
 You should see similar output to
 
@@ -91,11 +91,11 @@ You should see similar output to
 
 4) VERIFY POLICIES
 
-$cd models_20260123
+cd models_20260123
 
 4)1) NHITS BASELINE
 
-$python3 -m nhits_20260123.src.verify_robust_marabou \
+python3 -m nhits_20260123.src.verify_robust_marabou \
   --models-dir nhits_20260123/models \
   --model-path nhits_20260123/models/policy_baseline/policy_two_copy.onnx \
   --eps-q 0.2 \
@@ -108,7 +108,7 @@ $python3 -m nhits_20260123.src.verify_robust_marabou \
 Expected output: ROBUSTNESS NOT PROVED: SAT/UNKNOWN in at least one direction.
 
 4)2) NHITS ROBUST
-$python3 -m nhits_20260123.src.verify_robust_marabou \
+python3 -m nhits_20260123.src.verify_robust_marabou \
   --models-dir nhits_20260123/models \
   --model-path nhits_20260123/models/policy_robust/policy_two_copy.onnx \
   --eps-q 0.2 \
@@ -121,7 +121,7 @@ $python3 -m nhits_20260123.src.verify_robust_marabou \
 Expected output: ROBUSTNESS PROVED: UNSAT in both directions.
 
 4)3) NBEATS BASELINE
-$python3 -m nbeats_20260123.src.verify_robust_marabou \
+python3 -m nbeats_20260123.src.verify_robust_marabou \
   --models-dir nbeats_20260123/models \
   --model-path nbeats_20260123/models/policy_baseline/policy_two_copy.onnx \
   --eps-q 0.2 \
@@ -134,7 +134,7 @@ $python3 -m nbeats_20260123.src.verify_robust_marabou \
 Expected output: ROBUSTNESS NOT PROVED: SAT/UNKNOWN in at least one direction.
 
 4)4) NBEATS ROBUST
-$python3 -m nbeats_20260123.src.verify_robust_marabou \
+python3 -m nbeats_20260123.src.verify_robust_marabou \
   --models-dir nbeats_20260123/models \
   --model-path nbeats_20260123/models/policy_robust/policy_two_copy.onnx \
   --eps-q 0.2 \
@@ -149,10 +149,10 @@ Expected output: ROBUSTNESS PROVED: UNSAT in both directions.
 
 5) GENERATE EMPIRICAL EXPERIMENTS AND GRAPHS
 
-$cd Verify_nn_prod_plan
+cd Verify_nn_prod_plan
 
 (1) GRAPHS WITH DOMAIN FAMILIES  
-$python3 -m models_20260123.empirical_manygraphs_aggregated_families \
+python3 -m models_20260123.empirical_manygraphs_aggregated_families \
   --controllers nhits_baseline nhits_robust nbeats_baseline nbeats_robust \
   --policy-onnx \
     nhits_baseline=models_20260123/nhits_20260123/models/policy_baseline/policy_two_copy.onnx \
@@ -229,7 +229,7 @@ models_20260123/empirical_out_TIMESTAMP/timeseries/timeseries_summary.csv
 
 Please use the directory from experiment output (1), e.g. 'empirical_out_20260129_022647' in the parameter '--domain-table-csv'
 
-1️⃣ NHITS — Domain Coverage Analysis
+(4.1) NHITS — Domain Coverage Analysis
 Baseline + Robust (single run, same domains)
 $python3 -m models_20260123.domain_coverage_analysis \
   --domain-table-csv models_20260123/empirical_out_20260129_022647/tables/domain_table_nhits_baseline.csv \
@@ -250,7 +250,7 @@ $python3 -m models_20260123.domain_coverage_analysis \
      - empirical_results/empirical_out_20260129_023639/domain_coverage/domain_coverage_table.tex
   
 
-2️⃣ NBEATS — Domain Coverage Analysis
+(4.2) NBEATS — Domain Coverage Analysis
 python3 -m models_20260123.domain_coverage_analysis \
   --domain-table-csv models_20260123/empirical_out_20260129_022647/tables/domain_table_nbeats_baseline.csv \
   --controllers nbeats_baseline nbeats_robust \
