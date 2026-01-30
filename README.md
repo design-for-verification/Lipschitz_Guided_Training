@@ -36,15 +36,19 @@ Verify_nn_prod_plan/
                                     src/
 
 
-Commands (end-to-end pipeline):
+# Commands (end-to-end pipeline):
 
-1) TRAIN MODELS
-$cd models_20260123/nhits_20260123/
-$python3 -m src.forecast_model --kind nhits  --workspace models/nhits | tee "output_forecastmodel_nhits_$(date +%Y%m%d_%H%M%S).txt"
+## 1) Train Models
 
-Similarly:
-$cd models_20260123/nbeats_20260123/
-$python3 -m src.forecast_model --kind nbeats --workspace models/nbeats | tee "output_forecastmodel_nbeats_$(date +%Y%m%d_%H%M%S).txt"
+### NHITS
+```bash
+cd models_20260123/nhits_20260123/
+python3 -m src.forecast_model --kind nhits --workspace models/nhits \
+  | tee "output_forecastmodel_nhits_$(date +%Y%m%d_%H%M%S).txt"
+
+### NBEATS Similarly:
+cd models_20260123/nbeats_20260123/
+python3 -m src.forecast_model --kind nbeats --workspace models/nbeats | tee "output_forecastmodel_nbeats_$(date +%Y%m%d_%H%M%S).txt"
 
 
 2) Train both baseline+robust policies (writes models/scaling.json)
